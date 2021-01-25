@@ -26,13 +26,16 @@ POSTemplate[0] = {
 	}]
 };
 ```
-* /print/printimg: 打印图片
-* /print/printpdf: 打印PDF,
-* /print/printoffice1: 使用jacob直接打印文档
-* /print/printoffice2: 将文档转化成PDF后打印
-* /print/posprint: 简单小票打印
++ /print/printimg: 打印图片
++ /print/printpdf: 打印PDF,
++ /print/printoffice1: 使用jacob直接打印文档
++ /print/printoffice2: 将文档转化成PDF后打印
++ /print/posprint: 简单小票打印  
+
+>demo文件夹中存放页面调用的示例
 
 ###注意
+
 >在打印word或者excel时 把 jacob-1.20-x64.dll 放到%JAVA_HOME%\bin目录下。
-如果通过exe4j工具打包实现程序静默运行，并将jre放置在exe文件的同级下，
-则将jacob-1.20-x64.dll 放在C:\Windows\System32 
+>如果通过exe4j工具打包实现程序静默运行，并将jre放置在exe文件的同级下，
+>则将jacob-1.20-x64.dll 放在C:\Windows\System32 

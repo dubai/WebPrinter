@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<script type="text/javascript" src="jquery/jquery.js"></script>
+<script type="text/javascript" src="pagejs/print.js"></script>
+</head>
+<body>
+<div>
+	<label>PDF打印</label>
+	<input type="file" id="myFile1" name="myFile1" class="ipt_file">
+	<input type="button" id="btn1" value="测试"/>
+</div>
+<div>
+	<label>word或者excel直接打印</label>
+	<input type="file" id="myFile2" name="myFile2" class="ipt_file">
+	<input type="button" id="btn2" value="测试"/>
+</div>
+<div>
+	<label>word或者excel转pdf打印</label>
+	<input type="file" id="myFile3" name="myFile3" class="ipt_file">
+	<input type="button" id="btn3" value="测试"/>
+</div>
+
+<div>
+	<label>POS机打印测试</label>
+	<input type="button" id="btn4" value="测试"/>
+</div>
+
+<div>
+	<label>POS机打印测试2</label>
+	<input type="button" id="btn5" value="测试"/>
+</div>
+<script>
+$(function(){
+	Vars = {
+		file1: [],
+		file2: [],
+		file3: []
+	};
+	$("#myFile1").bind("change", function(){
+		Vars.file1.splice(0);
+		var filepath = $("input[name='myFile1']").val();
+		Vars.file1.push(this.files[0]);
+	});
+	$("#myFile2").bind("change", function(){
+		Vars.file2.splice(0);
+		var filepath = $("input[name='myFile2']").val();
+		Vars.file2.push(this.files[0]);
+	});
+	$("#myFile3").bind("change", function(){
+		Vars.file3.splice(0);
+		var filepath = $("input[name='myFile3']").val();
+		Vars.file3.push(this.files[0]);
+	});
+	$("#btn1").bind("click", function(){
+		var fileDate = new FormData();
+		$.each(Vars.file1, function(i, file){
+			fileDate.append("file", file);
+		});
+		var p = new WebPrinter({
+			file: fileDate,
+			fenshu: 1,
+			fangxiang: '0',
+			dsm: '0',
+			printerName: 'Microsoft XPS Document Writer',
+			methodInd: 1
+		});
+		p.printFile();
+	});
+	$("#btn2").bind("click", function(){
+		var fileDate = new FormData();
+		$.each(Vars.file2, function(i, file){
+			fileDate.append("file", file);
+		});
+		var p = new WebPrinter({
+			file: fileDate,
+			fenshu: 1,
+			fangxiang: '1',
+			dsm: '0',
+			printerName: 'Microsoft XPS Document Writer',
+			methodInd: 2
+		});
+		p.printFile();
+	});
+	$("#btn3").bind("click", function(){
+		var fileDate = new FormData();
+		$.each(Vars.file3, function(i, file){
+			fileDate.append("file", file);
+		});
+		var p = new WebPrinter({
+			file: fileDate,
+			fenshu: 1,
+			fangxiang: '1',
+			dsm: '0',
+			printerName: 'Microsoft XPS Document Writer',
+			methodInd: 3
+		});
+		p.printFile();
+	});
+	$("#btn4").bind("click", function(){
+		
+		var p = new WebPrinter({
+			printerName: 'Microsoft XPS Document Writer',
+			methodInd: 4,
+			posTemInd: 0,
+			posData: ["岱山县第一人民医院(体检)","202101120001","胡晓坤","男","47岁","同成1.12","肺功能","岱山县第一人民医院(体检)","202101120001","胡晓坤","男","47岁","同成1.12","胸部正位"]
+		});
+		p.printPOS();
+	});
+	$("#btn5").bind("click", function(){
+		
+		var p = new WebPrinter({
+			printerName: 'Microsoft XPS Document Writer',
+			methodInd: 4,
+			posTemInd: 1,
+			posData: ["(体检)","202101120001","胡晓坤","男","47岁","202101120001","血常规","(体检)","202101120001","胡晓坤","男","47岁","202101120001","尿常规"]
+		});
+		p.printPOS();
+	});
+});
+</script>
+</body>
+</html>
