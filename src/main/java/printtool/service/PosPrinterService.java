@@ -33,64 +33,61 @@ public class PosPrinterService {
         int count =  database.length / single.size();
         System.out.println("count = "+ count);
         if (PrinterJob.lookupPrintServices().length > 0){
-            // POS机打印格式书写
-            PageFormat pageFormat = new PageFormat();
-            pageFormat.setOrientation(PageFormat.PORTRAIT);
+            for (int i = 0; i < count; i++) {
+                // POS机打印格式书写
+                PageFormat pageFormat = new PageFormat();
+                pageFormat.setOrientation(PageFormat.PORTRAIT);
 
-            Paper paper = new Paper();
-            int wholeHeight = (whole.getHeight() + whole.getTopHeight() + whole.getBottomHeight()) * count;
-            paper.setImageableArea(0,0, whole.getWidth(), wholeHeight);
-            pageFormat.setPaper(paper);
+                Paper paper = new Paper();
+                paper.setImageableArea(0,0, whole.getWidth(), whole.getHeight());
+                pageFormat.setPaper(paper);
 
-            Book book = new Book();
-            book.append(new Printable() {
-                @Override
-                public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
-                    Graphics2D graphics2D = (Graphics2D) graphics;
-                    int y = 0;
-                    for(int i = 0; i < count; i++){
-                        y += whole.getTopHeight();
+                Book book = new Book();
+                int fi = i;
+                book.append(new Printable() {
+                    @Override
+                    public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
+                        Graphics2D graphics2D = (Graphics2D) graphics;
+                        int x = whole.getDx();
+                        int y = whole.getDy();
                         for (int j = 0; j < single.size();j++){
                             PosSingleTemplate t = single.get(j);
                             switch (t.getType()){
                                 case "code128":
-                                    byte[] bytes = drawCode128(database[i * single.size() + j]);
+                                    byte[] bytes = drawCode128(database[fi * single.size() + j]);
                                     BufferedImage image= null;
                                     try {
                                         image = ImageIO.read(new ByteArrayInputStream(bytes));
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }
-                                    graphics.drawImage(image, t.getX(), y + t.getY(), t.getWidth(), t.getHeight(),null);
+                                    graphics.drawImage(image, x + t.getX(), y + t.getY(), t.getWidth(), t.getHeight(),null);
                                     break;
                                 case "codebar":
-                                    byte[] b = drawCodeBar(database[i * single.size() + j]);
+                                    byte[] b = drawCodeBar(database[fi * single.size() + j]);
                                     BufferedImage img = null;
                                     try {
                                         img = ImageIO.read(new ByteArrayInputStream(b));
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }
-                                    graphics.drawImage(img, t.getX(), y + t.getY(),t.getWidth(), t.getHeight(), null);
+                                    graphics.drawImage(img, x + t.getX(), y + t.getY(),t.getWidth(), t.getHeight(), null);
                                     break;
                                 case "text":
                                     Font font = new Font(t.getFontName(),t.getBold() == 1? Font.BOLD:Font.PLAIN, t.getFontSize());
                                     graphics2D.setFont(font);
-                                    int newX = startX(graphics2D, database[i * single.size() + j], t.getX(), t.getWidth(), t.getAlign());
-                                    drawString(graphics2D, database[i * single.size() + j], newX, y + t.getY(), t.getWidth(), t.getHeight());
+                                    int newX = startX(graphics2D, database[fi * single.size() + j], t.getX(), t.getWidth(), t.getAlign());
+                                    drawString(graphics2D, database[fi * single.size() + j], x + newX, y + t.getY(), t.getWidth(), t.getHeight());
                                     break;
                             }
                         }
-                        y += whole.getHeight();
-                        drawString(graphics2D, "", 0, y, whole.getWidth(), whole.getBottomHeight());
-                        y += whole.getBottomHeight();
-                    }
 
-                    return PAGE_EXISTS;
-                }
-            }, pageFormat);
-            PrintUtil.print(requestPO.getPrintName(), book);
-            info.show("提示", "打印成功");
+                        return PAGE_EXISTS;
+                    }
+                }, pageFormat);
+                PrintUtil.print(requestPO.getPrintName(), book);
+            }
+            info.show("提示", "正在打印");
         } else {
             info.show("错误","没有发现打印服务");
         }
@@ -99,11 +96,11 @@ public class PosPrinterService {
     private static byte[] drawCode128(String msg){
         Code128Bean code128Bean = new Code128Bean();
         // 分辨率
-        final int dpi = 150;
+        final int dpi = 512;
         // 设置两边留白
         code128Bean.doQuietZone(true);
         // 设置条形码宽度
-        code128Bean.setModuleWidth(UnitConv.in2mm(1.0f / dpi));
+//        code128Bean.setModuleWidth(UnitConv.in2mm(1.0f / dpi));
         // 设置图片类型
         String format = "image/png";
 
@@ -125,11 +122,9 @@ public class PosPrinterService {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         CodabarBean bean = new CodabarBean();
 
-        final int dpi = 150;
-        final double moubleWidth = UnitConv.in2mm(1.0f / dpi);
-
-        bean.setModuleWidth(moubleWidth);
-        bean.doQuietZone(false);
+        final int dpi = 512;
+//        bean.setModuleWidth(UnitConv.in2mm(1.0f / dpi);
+        bean.doQuietZone(true);
 
         String format = "image/png";
 
@@ -150,7 +145,7 @@ public class PosPrinterService {
         int x2 = 0;
         FontMetrics fontMetrics = graphics2D.getFontMetrics();
         int strWidth = fontMetrics.stringWidth(text);
-        int blackWidth = lineWidth - x - x - strWidth;
+        int blackWidth = lineWidth - strWidth;
         switch (align.toLowerCase()){
             case "left":
                 x2 = x;

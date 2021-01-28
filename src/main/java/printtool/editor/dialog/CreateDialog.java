@@ -27,10 +27,10 @@ public class CreateDialog extends JDialog {
         JLabel label2 = new JLabel("纸张高", JLabel.CENTER);
         JTextField text2 = new JTextField();
         JLabel desc2 = new JLabel("(仅支持数字，长度为4，单位:px)", JLabel.LEFT);
-        JLabel label3 = new JLabel("顶部高度", JLabel.CENTER);
+        JLabel label3 = new JLabel("左偏移量", JLabel.CENTER);
         JTextField text3 = new JTextField();
         JLabel desc3 = new JLabel("(仅支持数字，长度为2)", JLabel.LEFT);
-        JLabel label4 = new JLabel("走纸高度", JLabel.CENTER);
+        JLabel label4 = new JLabel("上偏移量", JLabel.CENTER);
         JTextField text4 = new JTextField();
         JLabel desc4 = new JLabel("(仅支持数字，长度为2)", JLabel.LEFT);
         JButton sure = new JButton("确定");
@@ -129,8 +129,8 @@ public class CreateDialog extends JDialog {
                 }
                 template.setWidth(new Integer(text1.getText()));
                 template.setHeight(new Integer(text2.getText()));
-                template.setTopHeight(new Integer(text3.getText().isEmpty()?"0":text3.getText()));
-                template.setBottomHeight(new Integer(text4.getText().isEmpty()?"0":text4.getText()));
+                template.setDx(new Integer(text3.getText().isEmpty()?"0":text3.getText()));
+                template.setDy(new Integer(text4.getText().isEmpty()?"0":text4.getText()));
                 isSure = true;
 
                 dispose();

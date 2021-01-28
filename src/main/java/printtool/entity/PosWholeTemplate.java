@@ -6,8 +6,8 @@ public class PosWholeTemplate {
 
     private int width;
     private int height;
-    private int topHeight;
-    private int bottomHeight;
+    private int dx;
+    private int dy;
     private List<PosSingleTemplate> singles;
 
     public int getWidth() {
@@ -26,20 +26,20 @@ public class PosWholeTemplate {
         this.height = height;
     }
 
-    public int getTopHeight() {
-        return topHeight;
+    public int getDy() {
+        return dy;
     }
 
-    public void setTopHeight(int topHeight) {
-        this.topHeight = topHeight;
+    public void setDy(int dy) {
+        this.dy = dy;
     }
 
-    public int getBottomHeight() {
-        return bottomHeight;
+    public int getDx() {
+        return dx;
     }
 
-    public void setBottomHeight(int bottomHeight) {
-        this.bottomHeight = bottomHeight;
+    public void setDx(int dx) {
+        this.dx = dx;
     }
 
     public List<PosSingleTemplate> getSingles() {

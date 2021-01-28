@@ -34,7 +34,7 @@ POSTemplate[0] = {
 
 >demo文件夹中存放页面调用的示例
 
-###注意
+### 注意
 
 >在打印word或者excel时 把 jacob-1.20-x64.dll 放到%JAVA_HOME%\bin目录下。
 >如果通过exe4j工具打包实现程序静默运行，并将jre放置在exe文件的同级下，
