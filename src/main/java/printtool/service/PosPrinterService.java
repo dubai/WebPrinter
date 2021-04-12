@@ -96,7 +96,7 @@ public class PosPrinterService {
     private static byte[] drawCode128(String msg){
         Code128Bean code128Bean = new Code128Bean();
         // 分辨率
-        final int dpi = 512;
+        final int dpi = 1024;
         // 设置两边留白
         code128Bean.doQuietZone(true);
         // 设置条形码宽度
@@ -123,8 +123,8 @@ public class PosPrinterService {
         CodabarBean bean = new CodabarBean();
 
         final int dpi = 512;
-//        bean.setModuleWidth(UnitConv.in2mm(1.0f / dpi);
         bean.doQuietZone(true);
+//        bean.setModuleWidth(UnitConv.in2mm(1.0f / dpi);
 
         String format = "image/png";
 

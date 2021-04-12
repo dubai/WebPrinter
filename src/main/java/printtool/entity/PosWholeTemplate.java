@@ -1,13 +1,20 @@
 package printtool.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.List;
 
 public class PosWholeTemplate {
 
-    private int width;
-    private int height;
+    @JSONField(ordinal = 0)
     private int dx;
+    @JSONField(ordinal = 1)
     private int dy;
+    @JSONField(ordinal = 2)
+    private int width;
+    @JSONField(ordinal = 3)
+    private int height;
+    @JSONField(ordinal = 4)
     private List<PosSingleTemplate> singles;
 
     public int getWidth() {

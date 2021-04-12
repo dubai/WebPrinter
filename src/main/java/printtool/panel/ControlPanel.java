@@ -2,6 +2,7 @@ package printtool.panel;
 
 import net.sf.image4j.codec.ico.ICODecoder;
 import printtool.editor.PosEditor;
+import printtool.editor.ReadCardPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +27,7 @@ public class ControlPanel extends JFrame {
             List<BufferedImage> images = null;
             ImageIcon icon = null;
             try {
-                InputStream is = this.getClass().getResource("/images/GOVERM.ico").openStream();
+                InputStream is = this.getClass().getResource("/images/print.ico").openStream();
                 images = ICODecoder.read(is);
                 if (images != null){
                     icon = new ImageIcon(images.get(0));
@@ -55,6 +56,15 @@ public class ControlPanel extends JFrame {
                 }
             });
 
+            MenuItem menuItem2 = new MenuItem("社保读卡");
+            menuItem2.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    new ReadCardPanel();
+                }
+            });
+
+            pop.add(menuItem2);
             pop.add(menuItem1);
             pop.add(menuItem);
             TrayIcon tray = new TrayIcon(icon.getImage(),"打印调用服务", pop);

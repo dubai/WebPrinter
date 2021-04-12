@@ -1,6 +1,5 @@
 package printtool.editor.panel;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import printtool.editor.PosEditor;
 import printtool.editor.ui.ScrollBarUI;
@@ -68,7 +67,8 @@ public class TempPanel extends JPanel {
     }
 
     public void setJson(PosWholeTemplate template){
-        String data = JSON.toJSONString(template);
+        // 第二个参数是表示是否美化json串
+        String data = JSONObject.toJSONString(template,true);
         this.jsonArea.setText(data);
 
         setVisible(true);

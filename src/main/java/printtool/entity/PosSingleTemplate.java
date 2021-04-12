@@ -1,17 +1,27 @@
 package printtool.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 public class PosSingleTemplate {
 
+    @JSONField(ordinal = 0)
     private String type;
+    @JSONField(ordinal = 1)
     private String align;
+    @JSONField(ordinal = 2)
     private int width;
+    @JSONField(ordinal = 3)
     private int height;
+    @JSONField(ordinal = 4)
     private int x;
+    @JSONField(ordinal = 5)
     private int y;
+    @JSONField(ordinal = 6)
     private int bold;
+    @JSONField(ordinal = 7)
     private String fontName;
+    @JSONField(ordinal = 8)
     private int fontSize;
-
 
     public String getType() {
         return type;

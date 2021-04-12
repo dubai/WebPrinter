@@ -2,9 +2,12 @@ package printtool.listener;
 
 import org.springframework.boot.context.event.ApplicationStartingEvent;
 import org.springframework.context.ApplicationListener;
+import printtool.dllinter.NativeLoader;
 import printtool.panel.ControlPanel;
+import printtool.utils.INIFileUtil;
 
 import java.awt.*;
+import java.io.IOException;
 
 public class ApplicationStartingEventListener implements ApplicationListener<ApplicationStartingEvent> {
 
@@ -15,6 +18,11 @@ public class ApplicationStartingEventListener implements ApplicationListener<App
         try {
             controlPanel.drawTray();
         } catch (AWTException e) {
+            e.printStackTrace();
+        }
+        try {
+            INIFileUtil.readIniFile();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
